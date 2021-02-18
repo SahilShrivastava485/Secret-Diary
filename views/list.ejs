@@ -1,0 +1,92 @@
+<%- include("header") -%>
+
+  <script>
+function myFunction() {
+  // Declare variables
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById('myInput');
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myUL");
+  li = ul.getElementsByTagName('li');
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("a")[0];
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+  <!--<h2><center><%= username %></center></h2>-->  
+  <form class="item logout" action="/logout" method="post">
+    <button type="submit" class="logout">LOG OUT</button>
+    <input type="hidden" name="username" value="<%= username %>"></input>
+    <input type="hidden" name="userid" value="<%= userid %>"></input>
+  </form>
+
+  <br>  
+
+  <div class="box" id="heading">
+    <h1> <%= listTitle %> </h1>
+  </div>
+
+  <div class="box itemsheight">
+    <% newListItems.forEach(function(e){ %>
+    <form action="/delete" method="post">
+      <div class="item">
+        <input type="checkbox" name="checkbox" value="<%=e._id%>" onChange="this.form.submit()">
+        <p class="list"><%=  e.name  %></p>
+        <input type="hidden" name="listName" value="<%= listTitle %>"></input>
+        <input type="hidden" name="username" value="<%= username %>"></input>
+        <input type="hidden" name="userid" value="<%= userid %>"></input>
+      </div>
+    </form>
+   <% }) %>
+ </div>
+  <div class="box">
+    <form action="/" method="post">
+      <p class="list">Write the new task that you want to add:</p>
+      <input type="text" name="newItem" placeholder="New Task" autocomplete="off" required pattern=".*\S.*">
+      <button class="add" type="submit" name="list" value="<%= listTitle %>">+</button>
+      <input type="hidden" name="username" value="<%= username %>"></input>
+    </form>
+  </div>
+  
+  <div class="box">
+      <form action="/newpage" method="post">
+        <p class="list"> Add a new Goal to your Diary:</p>
+        <input type="text" name="newList" placeholder="New Goal" autocomplete="off" required pattern=".*\S.*">
+        <button class="add" type="submit" name="list">+</button>
+        <input type="hidden" name="username" value="<%= username %>"></input>
+        <input type="hidden" name="userid" value="<%= userid %>"></input> 
+      </form>
+
+  </div>
+  <div class="box box1 listsheight">
+    <form action="/newpage" method="post">
+       <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Goals..">
+        <p class="list">Your Goals:</p>
+        <ul id="myUL">
+        <% madedLists.forEach(function(e){%>
+        <% if(e.name!="Favicon.io"){%>
+        <li><a><div class="cell1"><p class="normal" ><%= e.name %></p>
+        <button type="submit" class="opendelete" name="newList" value="<%= e.name %>">Open</button>
+        <% if(e.name!="Today"){%>
+        <button type="submit" class="opendelete" formaction="/deletepage" name="deleteListid" value="<%=e._id%>">Delete</button>
+        </div></a></li>
+        <%}%>
+        <%}%>
+        <%})%>
+        </ul>
+        <input type="hidden" name="username" value="<%= username %>"></input> 
+        <input type="hidden" name="listpage" value="<%= listTitle %>"></input>
+        <input type="hidden" name="userid" value="<%= userid %>"></input>
+    </form>
+  </div>
+
+<%- include("footer") -%>

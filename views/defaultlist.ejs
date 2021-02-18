@@ -1,0 +1,67 @@
+<%- include("header") -%>
+
+  <script type="text/javascript">
+    localStorage.setItem("UserID", userid)
+  </script>
+
+  <!--<h2><center><%= username %></center></h2>-->  
+  <form class="item logout" action="/logout" method="post">
+    <button type="submit" class="logout">LOG OUT</button>
+    <input type="hidden" name="username" value="<%= username %>"></input>
+    <input type="hidden" name="userid" value="<%= userid %>"></input>
+  </form>
+
+  <br>  
+
+  <div class="box" id="heading">
+    <h1> <%= listTitle %> </h1>
+  </div>
+
+  <div class="box">
+    <% newListItems.forEach(function(e){ %>
+    <form action="/delete" method="post">
+      <div class="item">
+        <input type="checkbox" name="checkbox" value="<%=e._id%>" onChange="this.form.submit()">
+        <p class="list"><%=  e.name  %></p>
+        <input type="hidden" name="listName" value="<%= listTitle %>"></input>
+        <input type="hidden" name="username" value="<%= username %>"></input>
+        <input type="hidden" name="userid" value="<%= userid %>"></input>
+      </div>
+    </form>
+   <% }) %>
+
+      <form class="item" action="/" method="post">
+        <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+        <button class="add" type="submit" name="list" value="<%= listTitle %>">+</button>
+        <input type="hidden" name="username" value="<%= username %>"></input>
+        <input type="hidden" name="userid" value="<%= userid %>"></input> 
+      </form>
+    </div>
+  <div class="box">
+      <form action="/newpage" method="post">
+        <p class="list"> Write the topic on which you want to make a new List:</p>
+        <input type="text" name="newList" placeholder="New List" autocomplete="off">
+        <button class="add" type="submit" name="list">+</button>
+        <input type="hidden" name="username" value="<%= username %>"></input>
+        <input type="hidden" name="userid" value="<%= userid %>"></input> 
+      </form>
+
+  </div>
+  <div class="box box1">
+    <form action="/newpage" method="post">
+        <p class="list"> Already Maded Lists:</p>
+        <% madedLists.forEach(function(e){%>
+        <% if(e.name!="Favicon.ico"&& e.name!=listTitle){%>
+        <div class="cell"><p class="normal" ><%= e.name %></p>
+        <button type="submit" name="newList" value="<%= e.name %>">Open</button>
+        <button type="submit" formaction="/deletepage" name="deleteListid" value="<%=e._id%>">Delete</button>
+        </div>
+        <%}%>
+        <%})%>
+        <input type="hidden" name="username" value="<%= username %>"></input> 
+        <input type="hidden" name="listpage" value="<%= listTitle %>"></input>
+        <input type="hidden" name="userid" value="<%= userid %>"></input>
+    </form>
+  </div>
+
+<%- include("footer") -%>

@@ -1,0 +1,42 @@
+<%- include("header") -%>
+<script type="text/javascript">
+	var a=<%= userpresent %>
+	var b=<%= nouser %>
+	if(a){
+		window.alert("Username already exits, try with different username");
+	}else if (b) {
+		window.alert("username or password is incorrect");
+	}
+
+</script>
+
+<h2 class="main"><span><i class="fas fa-book-open"></i>&nbsp</span>SECRET DIARY</h2>
+
+<div class="box">
+	<h1 class="head">CREATE NEW ACCOUNT</h1>
+	<form action="/register" method="post">
+		<label>Username:</label>
+		<input type="text" name="username" placeholder="Username">
+		<label>Password:</label>
+		<input type="password" name="password" placeholder="*********">
+		<div><button type="submit" class="cell" >Register</button></div>
+	</form>
+	
+</div>
+
+<center><p class="or">OR</p></center>
+
+<div class="box">
+	<h1 class="head">ALREADY HAVE AN ACCOUNT</h1>
+	<form action="/login" method="post">
+		<label>Username:</label>
+		<input type="text" name="username" placeholder="Username">
+		<label>Password:</label>
+		<input type="password" name="password" placeholder="*********">
+		<div><button type="submit" class="cell" >Login</button></div>
+	</form>
+	
+</div>
+
+
+<%- include("footer") -%>
